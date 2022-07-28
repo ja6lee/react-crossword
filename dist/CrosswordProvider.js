@@ -539,7 +539,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
     const handleInputClick = (0, react_1.useCallback)(( /* event */) => {
         // *don't* event.preventDefault(), because we want the input to actually
         // take focus
-        var _a;
+        var _a, _b;
         // Like general cell-clicks, cliking on the input can change direction.
         // Unlike cell clicks, we *know* we're clicking on the already-focused
         // cell!
@@ -551,6 +551,10 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             direction = other;
         }
         setCurrentNumber((_a = cellData[direction]) !== null && _a !== void 0 ? _a : '');
+        if (onClueSelected) {
+            console.log("WE IN HERE");
+            onClueSelected(direction, (_b = cellData[direction]) !== null && _b !== void 0 ? _b : '');
+        }
         focus();
     }, [currentDirection, focus, focused, focusedCol, focusedRow, getCellData]);
     const handleClueSelected = (0, react_1.useCallback)((direction, number) => {

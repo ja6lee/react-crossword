@@ -876,6 +876,10 @@ const CrosswordProvider = React.forwardRef<
         }
 
         setCurrentNumber(cellData[direction] ?? '');
+        if (onClueSelected) {
+          console.log("WE IN HERE")
+          onClueSelected(direction, cellData[direction] ?? '');
+        }
         focus();
       },
       [currentDirection, focus, focused, focusedCol, focusedRow, getCellData]
