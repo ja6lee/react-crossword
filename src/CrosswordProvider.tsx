@@ -407,6 +407,22 @@ const CrosswordProvider = React.forwardRef<
           return;
         }
 
+        if (cell.guess && cell.guess.length > 0) {
+          // update the gridData with an empty guess so it gets reset
+          setGridData(
+            produce((draft) => {
+              (draft[row][col] as UsedCellData).guess = '';
+            })
+          );
+
+          // push the row/col for checking!
+          setCheckQueue(
+            produce((draft) => {
+              draft.push({ row, col });
+            })
+          );
+        }
+
         // update the gridData with the guess
         setGridData(
           produce((draft) => {
