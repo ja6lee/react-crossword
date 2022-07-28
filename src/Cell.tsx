@@ -78,7 +78,7 @@ export default function Cell({
 
   return (
     <g
-      key={`R${row}C${col}`}
+      id={`g-R${row}C${col}`}
       onClick={handleClick}
       style={{ cursor: 'default', fontSize: `${fontSize}px` }}
       className="clue-cell"
