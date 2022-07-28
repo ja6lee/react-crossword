@@ -217,6 +217,10 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             setCheckQueue((0, immer_1.default)((draft) => {
                 draft.push({ row, col });
             }));
+            if (onCellChange) {
+                console.log('callin back');
+                onCellChange(row, col, char);
+            }
         }
         // update the gridData with the guess
         setGridData((0, immer_1.default)((draft) => {

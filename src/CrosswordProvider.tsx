@@ -422,6 +422,11 @@ const CrosswordProvider = React.forwardRef<
               draft.push({ row, col });
             })
           );
+
+          if (onCellChange) {
+            console.log('callin back');
+            onCellChange(row, col, char);
+          }
         }
 
         // update the gridData with the guess
