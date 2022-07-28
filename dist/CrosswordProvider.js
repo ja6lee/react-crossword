@@ -531,6 +531,8 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             setCurrentNumber((_a = cellData[direction]) !== null && _a !== void 0 ? _a : '');
             if (onClueSelected) {
                 console.log("WE IN HERE");
+                console.log(direction);
+                console.log(cellData[direction]);
                 onClueSelected(direction, (_b = cellData[direction]) !== null && _b !== void 0 ? _b : '');
             }
         }
@@ -551,6 +553,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             direction = other;
         }
         setCurrentNumber((_a = cellData[direction]) !== null && _a !== void 0 ? _a : '');
+        console.log("we here at all??");
         if (onClueSelected) {
             console.log("WE IN HERE");
             onClueSelected(direction, (_b = cellData[direction]) !== null && _b !== void 0 ? _b : '');
