@@ -844,6 +844,10 @@ const CrosswordProvider = React.forwardRef<
           }
 
           setCurrentNumber(cellData[direction] ?? '');
+          if (onClueSelected) {
+            console.log("WE IN HERE")
+            onClueSelected(direction, cellData[direction] ?? '');
+          }
         }
 
         focus();
@@ -891,6 +895,7 @@ const CrosswordProvider = React.forwardRef<
         focus();
 
         if (onClueSelected) {
+          console.log("WE IN HERE 2")
           onClueSelected(direction, number);
         }
       },
