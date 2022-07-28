@@ -80,6 +80,7 @@ export default function Cell({
   if (answer === guess) {
     guessTextClass = 'guess-text-correct';
   } else if (guess && guess.length > 0) {
+    console.log(`GUESS: ${guess}`)
     guessTextClass = 'guess-text-incorrect';
   }
 

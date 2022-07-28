@@ -51,6 +51,7 @@ function Cell({ cellData, onClick, focus, highlight, }) {
         guessTextClass = 'guess-text-correct';
     }
     else if (guess && guess.length > 0) {
+        console.log(`GUESS: ${guess}`);
         guessTextClass = 'guess-text-incorrect';
     }
     return ((0, jsx_runtime_1.jsxs)("g", Object.assign({ onClick: handleClick, style: { cursor: 'default', fontSize: `${fontSize}px` }, className: "clue-cell" }, { children: [(0, jsx_runtime_1.jsx)("rect", { x: x + cellPadding, y: y + cellPadding, width: cellInner, height: cellInner, fill: focus
