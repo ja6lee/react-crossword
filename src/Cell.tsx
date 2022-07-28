@@ -76,6 +76,13 @@ export default function Cell({
   const x = col * cellSize;
   const y = row * cellSize;
 
+  let guessTextClass = 'guess-text-empty';
+  if (answer === guess) {
+    guessTextClass = 'guess-text-correct';
+  } else if (guess && guess.length > 0) {
+    guessTextClass = 'guess-text-incorrect';
+  }
+
   return (
     <g
       onClick={handleClick}
@@ -114,9 +121,7 @@ export default function Cell({
         textAnchor="middle"
         dominantBaseline="middle"
         style={{ fill: textColor }}
-        className={
-          answer === guess ? 'guess-text-correct' : (!guess ? 'guess-text-empty' : 'guess-text-incorrect')
-        }
+        className={guessTextClass}
       >
         {guess}
       </text>
