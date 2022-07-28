@@ -790,7 +790,9 @@ const CrosswordProvider = React.forwardRef<
       };
 
       if (useStorage) {
+        console.log(storageKey);
         loadGuesses(newGridData, storageKey || defaultStorageKey);
+        console.log(newGridData);
         // TODO: find correct answers...
       }
 
@@ -851,7 +853,7 @@ const CrosswordProvider = React.forwardRef<
             onClueSelected(direction, cellData[direction] ?? '');
           }
         }
-
+        console.log("HERE?!?!")
         focus();
       },
       [currentDirection, focus, focused, focusedCol, focusedRow]

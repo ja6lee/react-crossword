@@ -487,7 +487,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             down: masterClues.down.map((clue) => (Object.assign({}, clue))),
         };
         if (useStorage) {
+            console.log(storageKey);
             (0, util_1.loadGuesses)(newGridData, storageKey || defaultStorageKey);
+            console.log(newGridData);
             // TODO: find correct answers...
         }
         setClues(newCluesData);
@@ -536,6 +538,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
                 onClueSelected(direction, (_b = cellData[direction]) !== null && _b !== void 0 ? _b : '');
             }
         }
+        console.log("HERE?!?!");
         focus();
     }, [currentDirection, focus, focused, focusedCol, focusedRow]);
     const handleInputClick = (0, react_1.useCallback)(( /* event */) => {
