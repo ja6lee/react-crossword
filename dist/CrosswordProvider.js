@@ -477,7 +477,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         handleSingleCharacter(bulkChange[0]);
         setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
     }, [bulkChange, handleSingleCharacter]);
-    console.log("How many times do we get created?");
     // When the clues *input* data changes, reset/reload the player data
     (0, react_1.useEffect)(() => {
         // deep-clone the grid data...
@@ -488,9 +487,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             down: masterClues.down.map((clue) => (Object.assign({}, clue))),
         };
         if (useStorage) {
-            console.log(storageKey);
             (0, util_1.loadGuesses)(newGridData, storageKey || defaultStorageKey);
-            console.log(newGridData);
             // TODO: find correct answers...
         }
         setClues(newCluesData);
@@ -533,13 +530,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             }
             setCurrentNumber((_a = cellData[direction]) !== null && _a !== void 0 ? _a : '');
             if (onClueSelected) {
-                console.log("WE IN HERE");
-                console.log(direction);
-                console.log(cellData[direction]);
                 onClueSelected(direction, (_b = cellData[direction]) !== null && _b !== void 0 ? _b : '');
             }
         }
-        console.log("HERE?!?!");
         focus();
     }, [currentDirection, focus, focused, focusedCol, focusedRow]);
     const handleInputClick = (0, react_1.useCallback)(( /* event */) => {
@@ -557,9 +550,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             direction = other;
         }
         setCurrentNumber((_a = cellData[direction]) !== null && _a !== void 0 ? _a : '');
-        console.log("we here at all??");
         if (onClueSelected) {
-            console.log("WE IN HERE");
             onClueSelected(direction, (_b = cellData[direction]) !== null && _b !== void 0 ? _b : '');
         }
         focus();
@@ -574,7 +565,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         moveTo(info.row, info.col, direction);
         focus();
         if (onClueSelected) {
-            console.log("WE IN HERE 2");
             onClueSelected(direction, number);
         }
     }, [clues, focus, moveTo, onClueSelected]);

@@ -776,7 +776,6 @@ const CrosswordProvider = React.forwardRef<
       setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
     }, [bulkChange, handleSingleCharacter]);
 
-    console.log("How many times do we get created?")
     // When the clues *input* data changes, reset/reload the player data
     useEffect(() => {
       // deep-clone the grid data...
@@ -791,9 +790,7 @@ const CrosswordProvider = React.forwardRef<
       };
 
       if (useStorage) {
-        console.log(storageKey);
         loadGuesses(newGridData, storageKey || defaultStorageKey);
-        console.log(newGridData);
         // TODO: find correct answers...
       }
 
@@ -848,13 +845,9 @@ const CrosswordProvider = React.forwardRef<
 
           setCurrentNumber(cellData[direction] ?? '');
           if (onClueSelected) {
-            console.log("WE IN HERE")
-            console.log(direction)
-            console.log(cellData[direction])
             onClueSelected(direction, cellData[direction] ?? '');
           }
         }
-        console.log("HERE?!?!")
         focus();
       },
       [currentDirection, focus, focused, focusedCol, focusedRow]
@@ -881,9 +874,7 @@ const CrosswordProvider = React.forwardRef<
         }
 
         setCurrentNumber(cellData[direction] ?? '');
-        console.log("we here at all??")
         if (onClueSelected) {
-          console.log("WE IN HERE")
           onClueSelected(direction, cellData[direction] ?? '');
         }
         focus();
@@ -905,7 +896,6 @@ const CrosswordProvider = React.forwardRef<
         focus();
 
         if (onClueSelected) {
-          console.log("WE IN HERE 2")
           onClueSelected(direction, number);
         }
       },

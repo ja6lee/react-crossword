@@ -230,9 +230,6 @@ export function deserializeGuesses(
     const c = parseInt(cStr, 10);
     // ignore any out-of-bounds guesses!
     if (r <= gridData.length - 1 && c <= gridData[0].length - 1) {
-      console.log("WE GOT A VAL!!!");
-      console.log(val);
-      console.log(gridData[r][c]);
       (gridData[r][c] as UsedCellData).guess = val;
     }
   });
