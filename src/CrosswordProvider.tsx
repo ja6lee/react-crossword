@@ -409,6 +409,7 @@ const CrosswordProvider = React.forwardRef<
 
         if (cell.guess && cell.guess.length > 0) {
           // update the gridData with an empty guess so it gets reset
+          console.log("Attempting to reset first!")
           setGridData(
             produce((draft) => {
               (draft[row][col] as UsedCellData).guess = '';
