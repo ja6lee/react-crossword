@@ -76,16 +76,9 @@ export default function Cell({
   const x = col * cellSize;
   const y = row * cellSize;
 
-  let guessTextClass = 'guess-text-empty';
-  if (answer === guess) {
-    guessTextClass = 'guess-text-correct';
-  } else if (guess && guess.length > 0) {
-    console.log(`GUESS: ${guess}`)
-    guessTextClass = 'guess-text-incorrect';
-  }
-
   return (
     <g
+      key={`R${row}C${col}`}
       onClick={handleClick}
       style={{ cursor: 'default', fontSize: `${fontSize}px` }}
       className="clue-cell"
@@ -122,7 +115,9 @@ export default function Cell({
         textAnchor="middle"
         dominantBaseline="middle"
         style={{ fill: textColor }}
-        className={guessTextClass}
+        className={
+          answer === guess ? 'guess-text-correct' : 'guess-text-incorrect'
+        }
       >
         {guess}
       </text>

@@ -207,21 +207,6 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         if (cell.guess === char) {
             return;
         }
-        if (cell.guess && cell.guess.length > 0) {
-            // update the gridData with an empty guess so it gets reset
-            console.log("Attempting to reset first!");
-            setGridData((0, immer_1.default)((draft) => {
-                draft[row][col].guess = '';
-            }));
-            // push the row/col for checking!
-            setCheckQueue((0, immer_1.default)((draft) => {
-                draft.push({ row, col });
-            }));
-            if (onCellChange) {
-                console.log('callin back');
-                onCellChange(row, col, char);
-            }
-        }
         // update the gridData with the guess
         setGridData((0, immer_1.default)((draft) => {
             draft[row][col].guess = char;

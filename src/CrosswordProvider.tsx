@@ -407,28 +407,6 @@ const CrosswordProvider = React.forwardRef<
           return;
         }
 
-        if (cell.guess && cell.guess.length > 0) {
-          // update the gridData with an empty guess so it gets reset
-          console.log("Attempting to reset first!")
-          setGridData(
-            produce((draft) => {
-              (draft[row][col] as UsedCellData).guess = '';
-            })
-          );
-
-          // push the row/col for checking!
-          setCheckQueue(
-            produce((draft) => {
-              draft.push({ row, col });
-            })
-          );
-
-          if (onCellChange) {
-            console.log('callin back');
-            onCellChange(row, col, char);
-          }
-        }
-
         // update the gridData with the guess
         setGridData(
           produce((draft) => {
