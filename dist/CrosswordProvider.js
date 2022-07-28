@@ -477,6 +477,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         handleSingleCharacter(bulkChange[0]);
         setBulkChange(bulkChange.length === 1 ? null : bulkChange.substring(1));
     }, [bulkChange, handleSingleCharacter]);
+    console.log("How many times do we get created?");
     // When the clues *input* data changes, reset/reload the player data
     (0, react_1.useEffect)(() => {
         // deep-clone the grid data...
