@@ -115,7 +115,7 @@ export default function Cell({
         dominantBaseline="middle"
         style={{ fill: textColor }}
         className={
-          answer === guess ? 'guess-text-correct' : 'guess-text-incorrect'
+          answer === guess ? 'guess-text-correct' : (!guess ? 'guess-text-empty' : 'guess-text-incorrect')
         }
       >
         {guess}
