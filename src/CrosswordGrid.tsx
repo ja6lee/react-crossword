@@ -215,10 +215,13 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
                 )
               )}
             </svg>
+            <input id="username" style="display:none" type="text" name="fakeusernameremembered" />
+            <input id="password" style="display:none" type="password" name="fakepasswordremembered" />
             <input
               ref={inputRef}
               aria-label="crossword-input"
               type="text"
+              id="crossword-input"
               onClick={handleInputClick}
               onKeyDown={handleInputKeyDown}
               onChange={handleInputChange}
@@ -227,6 +230,7 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
               autoComplete="off"
               spellCheck="false"
               autoCorrect="off"
+              autocapitalize="off"
               style={inputStyle}
             />
           </div>

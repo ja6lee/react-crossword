@@ -158,9 +158,9 @@ function CrosswordGrid({ theme }) {
                                 // eslint-disable-next-line react/no-array-index-key
                                 , { cellData: cellData, focus: focused && row === focusedRow && col === focusedCol, highlight: focused &&
                                         !!currentNumber &&
-                                        cellData[currentDirection] === currentNumber, onClick: handleCellClick }, `R${row}C${col}`)) : undefined))] })), (0, jsx_runtime_1.jsx)("input", { ref: inputRef, "aria-label": "crossword-input", type: "text", onClick: handleInputClick, onKeyDown: handleInputKeyDown, onChange: handleInputChange, value: "", 
+                                        cellData[currentDirection] === currentNumber, onClick: handleCellClick }, `R${row}C${col}`)) : undefined))] })), (0, jsx_runtime_1.jsx)("input", { id: "username", style: "display:none", type: "text", name: "fakeusernameremembered" }), (0, jsx_runtime_1.jsx)("input", { id: "password", style: "display:none", type: "password", name: "fakepasswordremembered" }), (0, jsx_runtime_1.jsx)("input", { ref: inputRef, "aria-label": "crossword-input", type: "text", id: "crossword-input", onClick: handleInputClick, onKeyDown: handleInputKeyDown, onChange: handleInputChange, value: "", 
                             // onInput={this.handleInput}
-                            autoComplete: "off", spellCheck: "false", autoCorrect: "off", style: inputStyle })] })) }) })) })));
+                            autoComplete: "off", spellCheck: "false", autoCorrect: "off", autocapitalize: "off", style: inputStyle })] })) }) })) })));
 }
 exports.default = CrosswordGrid;
 CrosswordGrid.propTypes = CrosswordGridPropTypes;
