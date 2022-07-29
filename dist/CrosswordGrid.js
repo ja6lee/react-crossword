@@ -158,9 +158,9 @@ function CrosswordGrid({ theme }) {
                                 // eslint-disable-next-line react/no-array-index-key
                                 , { cellData: cellData, focus: focused && row === focusedRow && col === focusedCol, highlight: focused &&
                                         !!currentNumber &&
-                                        cellData[currentDirection] === currentNumber, onClick: handleCellClick }, `R${row}C${col}`)) : undefined))] })), (0, jsx_runtime_1.jsx)("input", { ref: inputRef, "aria-label": "crossword-input", type: "text", id: "crossword-input", onClick: handleInputClick, onKeyDown: handleInputKeyDown, onChange: handleInputChange, value: "", 
+                                        cellData[currentDirection] === currentNumber, onClick: handleCellClick }, `R${row}C${col}`)) : undefined))] })), (0, jsx_runtime_1.jsx)("input", { ref: inputRef, type: "text", id: "crossword-input-uniq", name: "crossword-input-uniq", onClick: handleInputClick, onKeyDown: handleInputKeyDown, onChange: handleInputChange, value: "", 
                             // onInput={this.handleInput}
-                            style: inputStyle })] })) }) })) })));
+                            autoComplete: "off", spellCheck: "false", autoCorrect: "off", style: inputStyle })] })) }) })) })));
 }
 exports.default = CrosswordGrid;
 CrosswordGrid.propTypes = CrosswordGridPropTypes;

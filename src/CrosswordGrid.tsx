@@ -217,14 +217,17 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
             </svg>
             <input
               ref={inputRef}
-              aria-label="crossword-input"
               type="text"
-              id="crossword-input"
+              id="crossword-input-uniq"
+              name="crossword-input-uniq"
               onClick={handleInputClick}
               onKeyDown={handleInputKeyDown}
               onChange={handleInputChange}
               value=""
               // onInput={this.handleInput}
+              autoComplete="off"
+              spellCheck="false"
+              autoCorrect="off"
               style={inputStyle}
             />
           </div>
