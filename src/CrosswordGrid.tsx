@@ -225,10 +225,6 @@ export default function CrosswordGrid({ theme }: CrosswordGridProps) {
               onChange={handleInputChange}
               value=""
               // onInput={this.handleInput}
-              autoComplete="new-password"
-              spellCheck="false"
-              autoCorrect="off"
-              autoCapitalize="off"
               style={inputStyle}
             />
           </div>

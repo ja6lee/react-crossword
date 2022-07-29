@@ -160,7 +160,7 @@ function CrosswordGrid({ theme }) {
                                         !!currentNumber &&
                                         cellData[currentDirection] === currentNumber, onClick: handleCellClick }, `R${row}C${col}`)) : undefined))] })), (0, jsx_runtime_1.jsx)("input", { ref: inputRef, "aria-label": "crossword-input", type: "text", id: "crossword-input", onClick: handleInputClick, onKeyDown: handleInputKeyDown, onChange: handleInputChange, value: "", 
                             // onInput={this.handleInput}
-                            autoComplete: "new-password", spellCheck: "false", autoCorrect: "off", autoCapitalize: "off", style: inputStyle })] })) }) })) })));
+                            style: inputStyle })] })) }) })) })));
 }
 exports.default = CrosswordGrid;
 CrosswordGrid.propTypes = CrosswordGridPropTypes;
