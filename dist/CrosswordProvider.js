@@ -335,13 +335,16 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
         var _a;
         let direction = directionOverride !== null && directionOverride !== void 0 ? directionOverride : currentDirection;
         let candidate = getCellData(row, col);
+        console.log(`Current number: ${currentNumber} -- ${currentDirection}`);
         // move to the next used square
         if (!candidate.used) {
+            console.log("IN HERE?!");
             if (!clues) {
                 return false;
             }
             const nextClueNumber = parseInt(currentNumber) + (forwards ? 1 : -1);
             if (nextClueNumber <= 0) {
+                console.log("in case 1");
                 // Go to the last clue the opposite direction
                 const oppositeDirection = (0, util_1.otherDirection)(direction);
                 let maxClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][0];
@@ -350,12 +353,14 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
                         maxClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i];
                     }
                 }
+                console.log(maxClue);
                 candidate = getCellData(maxClue.row, maxClue.col);
                 direction = oppositeDirection;
             }
             else {
                 const nextClue = clues === null || clues === void 0 ? void 0 : clues[direction].find((clue) => clue.number === '' + nextClueNumber);
                 if (!nextClue) {
+                    console.log("in case 2");
                     // find the first clue the opposite direction
                     const oppositeDirection = (0, util_1.otherDirection)(direction);
                     let minClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][0];
@@ -364,16 +369,21 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
                             minClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i];
                         }
                     }
+                    console.log(minClue);
                     candidate = getCellData(minClue.row, minClue.col);
                     direction = oppositeDirection;
                 }
                 else {
+                    console.log("in case 3");
                     candidate = getCellData(nextClue.row, nextClue.col);
                 }
             }
             row = candidate.row;
             col = candidate.col;
         }
+        console.log("Candidate: ");
+        console.log(candidate);
+        console.log(direction);
         if (!candidate.used) {
             // we should never get here.. but alas
             console.log("Couldn't find a suitable candidate");

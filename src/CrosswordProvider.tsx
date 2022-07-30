@@ -593,14 +593,18 @@ const CrosswordProvider = React.forwardRef<
         let direction = directionOverride ?? currentDirection;
         let candidate = getCellData(row, col);
 
+        console.log(`Current number: ${currentNumber} -- ${currentDirection}`)
+
         // move to the next used square
         if (!candidate.used) {
+          console.log("IN HERE?!")
           if (!clues) {
             return false;
           }
 
           const nextClueNumber = parseInt(currentNumber) + (forwards ? 1 : -1);
           if (nextClueNumber <= 0) {
+            console.log("in case 1")
             // Go to the last clue the opposite direction
             const oppositeDirection = otherDirection(direction);
             let maxClue = clues?.[oppositeDirection][0];
@@ -609,11 +613,13 @@ const CrosswordProvider = React.forwardRef<
                 maxClue = clues?.[oppositeDirection][i];
               }
             }
+            console.log(maxClue);
             candidate = getCellData(maxClue.row, maxClue.col);
             direction = oppositeDirection;
           } else {
             const nextClue = clues?.[direction].find((clue) => clue.number === '' + nextClueNumber);
             if (!nextClue) {
+              console.log("in case 2")
               // find the first clue the opposite direction
               const oppositeDirection = otherDirection(direction);
               let minClue = clues?.[oppositeDirection][0];
@@ -622,15 +628,20 @@ const CrosswordProvider = React.forwardRef<
                   minClue = clues?.[oppositeDirection][i];
                 }
               }
+              console.log(minClue);
               candidate = getCellData(minClue.row, minClue.col);
               direction = oppositeDirection;
             } else {
+              console.log("in case 3")
               candidate = getCellData(nextClue.row, nextClue.col);
             }
           }
           row = candidate.row;
           col = candidate.col;
         }
+        console.log("Candidate: ")
+        console.log(candidate);
+        console.log(direction);
 
         if (!candidate.used) {
           // we should never get here.. but alas
