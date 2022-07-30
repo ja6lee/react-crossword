@@ -331,6 +331,25 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
             console.warn('CrosswordProvider: focus() has no registered handler to call!');
         }
     }, []);
+    const findFirstOpenLetter = (0, react_1.useCallback)((direction, clue) => {
+        let currentClue = clue;
+        if (direction == 'down') {
+            while (currentClue.used && currentClue.guess && currentClue.guess.length > 0) {
+                currentClue = getCellData(currentClue.row + 1, currentClue.col);
+            }
+        }
+        else {
+            while (currentClue.used && currentClue.guess && currentClue.guess.length > 0) {
+                currentClue = getCellData(currentClue.row, currentClue.col + 1);
+            }
+        }
+        if (currentClue.used) {
+            return currentClue;
+        }
+        else {
+            return clue;
+        }
+    }, [getCellData]);
     const findEdgeClue = (0, react_1.useCallback)((direction, front) => {
         if (!clues) {
             return null;
@@ -394,6 +413,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
                     return false;
                 }
             }
+            candidate = findFirstOpenLetter(direction, candidate);
             row = candidate.row;
             col = candidate.col;
         }

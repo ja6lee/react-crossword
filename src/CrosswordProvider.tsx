@@ -27,7 +27,7 @@ import {
   GridData,
   UsedCellData,
   CellData,
-  UnusedCellData, circlesInputShapeOriginal, CirclesInput,
+  UnusedCellData, circlesInputShapeOriginal, CirclesInput, ClueTypeOriginal,
 } from './types';
 import {
   bothDirections,
@@ -588,6 +588,25 @@ const CrosswordProvider = React.forwardRef<
       }
     }, []);
 
+    const findFirstOpenLetter = useCallback((direction:Direction, clue:CellData) => {
+      let currentClue = clue;
+
+      if (direction == 'down') {
+        while (currentClue.used && currentClue.guess && currentClue.guess.length > 0) {
+          currentClue = getCellData(currentClue.row + 1, currentClue.col);
+        }
+      } else {
+        while (currentClue.used && currentClue.guess && currentClue.guess.length > 0) {
+          currentClue = getCellData(currentClue.row, currentClue.col + 1);
+        }
+      }
+      if (currentClue.used) {
+        return currentClue;
+      } else {
+        return clue;
+      }
+    }, [getCellData]);
+
     const findEdgeClue = useCallback((direction:Direction, front:boolean) => {
       if (!clues) {
         return null;
@@ -623,7 +642,7 @@ const CrosswordProvider = React.forwardRef<
       }
       return null;
 
-    }, [currentDirection, currentNumber, clues])
+    }, [currentDirection, currentNumber, clues]);
 
     const moveTo = useCallback(
       (row: number, col: number, forwards: boolean, directionOverride?: Direction) => {
@@ -655,6 +674,7 @@ const CrosswordProvider = React.forwardRef<
               return false;
             }
           }
+          candidate = findFirstOpenLetter(direction, candidate);
           row = candidate.row;
           col = candidate.col;
         }
