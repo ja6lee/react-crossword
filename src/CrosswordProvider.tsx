@@ -697,6 +697,10 @@ const CrosswordProvider = React.forwardRef<
         setCurrentDirection(direction);
         setCurrentNumber(candidate[direction] ?? '');
 
+        if (onClueSelected) {
+          onClueSelected(direction, candidate[direction] ?? '');
+        }
+
         return candidate;
       },
       [currentDirection, getCellData, currentNumber]

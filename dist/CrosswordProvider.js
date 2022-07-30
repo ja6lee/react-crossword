@@ -385,7 +385,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
         return null;
     }, [currentDirection, currentNumber, clues]);
     const moveTo = (0, react_1.useCallback)((row, col, forwards, directionOverride) => {
-        var _a;
+        var _a, _b;
         let direction = directionOverride !== null && directionOverride !== void 0 ? directionOverride : currentDirection;
         let candidate = getCellData(row, col);
         console.log(`Current number: ${currentNumber} -- ${currentDirection}`);
@@ -432,6 +432,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
         setFocusedCol(col);
         setCurrentDirection(direction);
         setCurrentNumber((_a = candidate[direction]) !== null && _a !== void 0 ? _a : '');
+        if (onClueSelected) {
+            onClueSelected(direction, (_b = candidate[direction]) !== null && _b !== void 0 ? _b : '');
+        }
         return candidate;
     }, [currentDirection, getCellData, currentNumber]);
     const moveRelative = (0, react_1.useCallback)((dRow, dCol) => {
