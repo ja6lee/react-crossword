@@ -413,7 +413,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
         setCurrentDirection(direction);
         setCurrentNumber((_a = candidate[direction]) !== null && _a !== void 0 ? _a : '');
         return candidate;
-    }, [currentDirection, getCellData]);
+    }, [currentDirection, getCellData, currentNumber]);
     const moveRelative = (0, react_1.useCallback)((dRow, dCol) => {
         // We expect *only* one of dRow or dCol to have a non-zero value, and
         // that's the direction we will "prefer".  If *both* are set (or zero),

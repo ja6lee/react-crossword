@@ -679,7 +679,7 @@ const CrosswordProvider = React.forwardRef<
 
         return candidate;
       },
-      [currentDirection, getCellData]
+      [currentDirection, getCellData, currentNumber]
     );
 
     const moveRelative = useCallback(
