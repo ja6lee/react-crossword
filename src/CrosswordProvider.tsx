@@ -608,13 +608,15 @@ const CrosswordProvider = React.forwardRef<
         return null;
       }
       const clueNumbers = clues?.[currentDirection].map((clue) => clue.number).sort((a, b) => parseInt(a) - parseInt(b));
-      console.log('clue numbers');
-      console.log(clueNumbers);
+      console.log(`forwards: ${forwards}`);
+
       for (let i = 0; i < clueNumbers.length; i++) {
         if (clueNumbers[i] === currentNumber) {
           if (forwards && i != clueNumbers.length - 1) {
+            console.log(`finding 1 more clue: ${clueNumbers[i + 1]}`)
             return clues?.[currentDirection].find((clue) => clue.number === clueNumbers[i + 1]);
           } else if (!forwards && i != 0) {
+            console.log(`finding 1 less clue: ${clueNumbers[i - 1]}`)
             return clues?.[currentDirection].find((clue) => clue.number === clueNumbers[i - 1]);
           }
         }

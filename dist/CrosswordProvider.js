@@ -350,14 +350,15 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
             return null;
         }
         const clueNumbers = clues === null || clues === void 0 ? void 0 : clues[currentDirection].map((clue) => clue.number).sort((a, b) => parseInt(a) - parseInt(b));
-        console.log('clue numbers');
-        console.log(clueNumbers);
+        console.log(`forwards: ${forwards}`);
         for (let i = 0; i < clueNumbers.length; i++) {
             if (clueNumbers[i] === currentNumber) {
                 if (forwards && i != clueNumbers.length - 1) {
+                    console.log(`finding 1 more clue: ${clueNumbers[i + 1]}`);
                     return clues === null || clues === void 0 ? void 0 : clues[currentDirection].find((clue) => clue.number === clueNumbers[i + 1]);
                 }
                 else if (!forwards && i != 0) {
+                    console.log(`finding 1 less clue: ${clueNumbers[i - 1]}`);
                     return clues === null || clues === void 0 ? void 0 : clues[currentDirection].find((clue) => clue.number === clueNumbers[i - 1]);
                 }
             }
@@ -392,9 +393,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
                     console.log("Did not find an edge clue somehow...?");
                     return false;
                 }
-                row = candidate.row;
-                col = candidate.col;
             }
+            row = candidate.row;
+            col = candidate.col;
         }
         console.log("Candidate: ");
         console.log(candidate);
