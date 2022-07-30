@@ -641,7 +641,6 @@ const CrosswordProvider = React.forwardRef<
           if (nextClue) {
             console.log("Found a next clue!");
             candidate = getCellData(nextClue.row, nextClue.col);
-
           } else {
             console.log("... did not find a next clue - we need to switch directions :(");
             const oppositeDirection = otherDirection(direction);
@@ -653,9 +652,9 @@ const CrosswordProvider = React.forwardRef<
               console.log("Did not find an edge clue somehow...?");
               return false;
             }
-            row = candidate.row;
-            col = candidate.col;
           }
+          row = candidate.row;
+          col = candidate.col;
         }
         console.log("Candidate: ")
         console.log(candidate);
