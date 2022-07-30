@@ -1,6 +1,6 @@
 import type {
   AnswerTuple,
-  CellData,
+  CellData, CircleTypeArray,
   CluesData,
   CluesInput,
   Direction,
@@ -91,7 +91,8 @@ export function fillClues(
   gridData: GridData,
   clues: CluesData,
   data: CluesInput,
-  direction: Direction
+  direction: Direction,
+  circles: CircleTypeArray
 ) {
   const dir = directionInfo[direction];
 
@@ -106,6 +107,13 @@ export function fillClues(
       cellData.used = true;
       cellData.answer = answer[i];
       cellData[direction] = number;
+      if (circles) {
+        for (let c = 0; c < circles.length; c++) {
+          if (circles[c].row == row && circles[c].col == col) {
+            cellData.circle = true;
+          }
+        }
+      }
 
       if (i === 0) {
         // TODO?: check to ensure the number is the same if it's already set?
@@ -127,7 +135,7 @@ export function fillClues(
 
 // Given the "nice format" for a crossword, generate the usable data optimized
 // for rendering and our interactivity.
-export function createGridData(data: CluesInput) {
+export function createGridData(data: CluesInput, circles: CircleTypeArray) {
   const acrossMax = calculateExtents(data, 'across');
   const downMax = calculateExtents(data, 'down');
 
@@ -142,8 +150,8 @@ export function createGridData(data: CluesInput) {
     down: [],
   };
 
-  fillClues(gridData, clues, data, 'across');
-  fillClues(gridData, clues, data, 'down');
+  fillClues(gridData, clues, data, 'across', circles);
+  fillClues(gridData, clues, data, 'down', circles);
 
   return { size, gridData, clues };
 }

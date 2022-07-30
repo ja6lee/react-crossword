@@ -21,6 +21,10 @@ declare const clueInputPropsOriginal: {
     /** The 0-based column on which the answer begins */
     col: PropTypes.Validator<number>;
 };
+declare const rowColProps: {
+    row: PropTypes.Validator<number>;
+    col: PropTypes.Validator<number>;
+};
 export declare const clueShapeOriginal: PropTypes.Requireable<PropTypes.InferProps<{
     /** The clue to display */
     clue: PropTypes.Validator<string>;
@@ -31,7 +35,12 @@ export declare const clueShapeOriginal: PropTypes.Requireable<PropTypes.InferPro
     /** The 0-based column on which the answer begins */
     col: PropTypes.Validator<number>;
 }>>;
+export declare const rowColShape: PropTypes.Requireable<PropTypes.InferProps<{
+    row: PropTypes.Validator<number>;
+    col: PropTypes.Validator<number>;
+}>>;
 export declare type ClueTypeOriginal = InferProps<typeof clueInputPropsOriginal>;
+export declare type CircleTypeOriginal = InferProps<typeof rowColProps>;
 export declare const cluesInputShapeOriginal: PropTypes.Requireable<PropTypes.InferProps<{
     /** "across" clues and answers */
     across: PropTypes.Validator<{
@@ -60,6 +69,11 @@ export declare const cluesInputShapeOriginal: PropTypes.Requireable<PropTypes.In
         }>;
     }>;
 }>>;
+export declare const circlesInputShapeOriginal: PropTypes.Requireable<PropTypes.InferProps<{
+    row: PropTypes.Validator<number>;
+    col: PropTypes.Validator<number>;
+}>[]>;
+export declare type CircleTypeArray = Array<CircleTypeOriginal>;
 /**
  * The (original) input-format for clues and answers.  Note that while the
  * keys/properties under 'across' and 'down' are canonically the clue/answer
@@ -72,6 +86,7 @@ export declare type CluesInputOriginal = Record<Direction, Record<string, ClueTy
  * future.
  */
 export declare type CluesInput = CluesInputOriginal;
+export declare type CirclesInput = CircleTypeArray;
 /**
  * The data stored/returned for a specific cell/position in the crossword.
  */
@@ -88,6 +103,8 @@ export declare type UsedCellData = GridPosition & {
     across?: string;
     /** If present, the clue-number key for the "down" for this cell */
     down?: string;
+    /** If present, a circle should be shown in this cell */
+    circle?: boolean;
 };
 /**
  * The data stored/returned for a specific unused or out-of-bounds cell/position

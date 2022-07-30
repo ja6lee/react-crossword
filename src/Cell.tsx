@@ -71,7 +71,7 @@ export default function Cell({
     [cellData, onClick]
   );
 
-  const { row, col, guess, number, answer } = cellData;
+  const { row, col, guess, number, answer, circle } = cellData;
 
   const x = col * cellSize;
   const y = row * cellSize;
@@ -80,7 +80,7 @@ export default function Cell({
     <g
       id={`g-R${row}C${col}`}
       onClick={handleClick}
-      style={{ cursor: 'default', fontSize: `${fontSize}px` }}
+      style={{ cursor: 'default', fontSize: `${fontSize}px`, backgroundColor: 'green' }}
       className="clue-cell"
     >
       <rect
@@ -98,6 +98,15 @@ export default function Cell({
         stroke={cellBorder}
         strokeWidth={cellSize / 50}
       />
+      {circle && (
+        <circle
+        cx={x + cellSize / 2}
+        cy={y + cellSize / 2}
+        r={cellSize / 2 - cellPadding * 4}
+        stroke={cellBorder}
+        strokeWidth={cellSize / 50}
+        fill="transparent" />
+      )}
       {number && (
         <text
           x={x + cellPadding * 4}

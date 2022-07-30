@@ -25,6 +25,10 @@ declare const crosswordPropTypes: {
             }>;
         }>;
     }>>;
+    circles: PropTypes.Validator<PropTypes.InferProps<{
+        row: PropTypes.Validator<number>;
+        col: PropTypes.Validator<number>;
+    }>[]>;
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         columnBreakpoint: PropTypes.Requireable<string>;
         gridBackground: PropTypes.Requireable<string>;
@@ -37,11 +41,7 @@ declare const crosswordPropTypes: {
     }>>;
     useStorage: PropTypes.Requireable<boolean>;
     storageKey: PropTypes.Requireable<string>;
-    onAnswerComplete: PropTypes.Requireable<(...args: any[]) => any>; /**
-     * Returns whether the crossword is entirely correct or not.
-     *
-     * @since 2.2.0
-     */
+    onAnswerComplete: PropTypes.Requireable<(...args: any[]) => any>;
     onAnswerCorrect: PropTypes.Requireable<(...args: any[]) => any>;
     onCorrect: PropTypes.Requireable<(...args: any[]) => any>;
     onAnswerIncorrect: PropTypes.Requireable<(...args: any[]) => any>;
@@ -82,6 +82,10 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
             }>;
         }>;
     }>>;
+    circles: PropTypes.Validator<PropTypes.InferProps<{
+        row: PropTypes.Validator<number>;
+        col: PropTypes.Validator<number>;
+    }>[]>;
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         columnBreakpoint: PropTypes.Requireable<string>;
         gridBackground: PropTypes.Requireable<string>;
@@ -94,11 +98,7 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
     }>>;
     useStorage: PropTypes.Requireable<boolean>;
     storageKey: PropTypes.Requireable<string>;
-    onAnswerComplete: PropTypes.Requireable<(...args: any[]) => any>; /**
-     * Returns whether the crossword is entirely correct or not.
-     *
-     * @since 2.2.0
-     */
+    onAnswerComplete: PropTypes.Requireable<(...args: any[]) => any>;
     onAnswerCorrect: PropTypes.Requireable<(...args: any[]) => any>;
     onCorrect: PropTypes.Requireable<(...args: any[]) => any>;
     onAnswerIncorrect: PropTypes.Requireable<(...args: any[]) => any>;
@@ -108,5 +108,5 @@ declare const Crossword: React.ForwardRefExoticComponent<Omit<PropTypes.InferPro
     onCellChange: PropTypes.Requireable<(...args: any[]) => any>;
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "theme" | "useStorage" | "storageKey" | "onAnswerComplete" | "onAnswerCorrect" | "onCorrect" | "onAnswerIncorrect" | "onLoadedCorrect" | "onCrosswordComplete" | "onCrosswordCorrect" | "onCellChange" | "onClueSelected"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
+}>, "data" | "theme" | "circles" | "useStorage" | "storageKey" | "onAnswerComplete" | "onAnswerCorrect" | "onCorrect" | "onAnswerIncorrect" | "onLoadedCorrect" | "onCrosswordComplete" | "onCrosswordCorrect" | "onCellChange" | "onClueSelected"> & Omit<CrosswordProviderProps, "children"> & React.RefAttributes<CrosswordProviderImperative>>;
 export default Crossword;

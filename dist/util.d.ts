@@ -1,4 +1,4 @@
-import type { AnswerTuple, CellData, CluesData, CluesInput, Direction, GridData } from './types';
+import type { AnswerTuple, CellData, CircleTypeArray, CluesData, CluesInput, Direction, GridData } from './types';
 export declare const bothDirections: Direction[];
 export declare function isAcross(direction: Direction): boolean;
 export declare function otherDirection(direction: Direction): "across" | "down";
@@ -6,8 +6,8 @@ export declare function calculateExtents(data: CluesInput, direction: Direction)
     [x: string]: number;
 };
 export declare function createEmptyGrid(size: number): GridData;
-export declare function fillClues(gridData: GridData, clues: CluesData, data: CluesInput, direction: Direction): void;
-export declare function createGridData(data: CluesInput): {
+export declare function fillClues(gridData: GridData, clues: CluesData, data: CluesInput, direction: Direction, circles: CircleTypeArray): void;
+export declare function createGridData(data: CluesInput, circles: CircleTypeArray): {
     size: number;
     gridData: GridData;
     clues: CluesData;

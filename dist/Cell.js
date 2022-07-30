@@ -43,14 +43,14 @@ function Cell({ cellData, onClick, focus, highlight, }) {
             onClick(cellData);
         }
     }, [cellData, onClick]);
-    const { row, col, guess, number, answer } = cellData;
+    const { row, col, guess, number, answer, circle } = cellData;
     const x = col * cellSize;
     const y = row * cellSize;
-    return ((0, jsx_runtime_1.jsxs)("g", Object.assign({ id: `g-R${row}C${col}`, onClick: handleClick, style: { cursor: 'default', fontSize: `${fontSize}px` }, className: "clue-cell" }, { children: [(0, jsx_runtime_1.jsx)("rect", { x: x + cellPadding, y: y + cellPadding, width: cellInner, height: cellInner, fill: focus
+    return ((0, jsx_runtime_1.jsxs)("g", Object.assign({ id: `g-R${row}C${col}`, onClick: handleClick, style: { cursor: 'default', fontSize: `${fontSize}px`, backgroundColor: 'green' }, className: "clue-cell" }, { children: [(0, jsx_runtime_1.jsx)("rect", { x: x + cellPadding, y: y + cellPadding, width: cellInner, height: cellInner, fill: focus
                     ? focusBackground
                     : highlight
                         ? highlightBackground
-                        : cellBackground, stroke: cellBorder, strokeWidth: cellSize / 50 }), number && ((0, jsx_runtime_1.jsx)("text", Object.assign({ x: x + cellPadding * 4, y: y + cellPadding * 4, textAnchor: "start", dominantBaseline: "hanging", style: { fontSize: '50%', fill: numberColor } }, { children: number }))), (0, jsx_runtime_1.jsx)("text", Object.assign({ x: x + cellHalf, y: y + cellHalf + 1, textAnchor: "middle", dominantBaseline: "middle", style: { fill: textColor }, className: answer === guess ? 'guess-text-correct' : 'guess-text-incorrect' }, { children: guess }))] })));
+                        : cellBackground, stroke: cellBorder, strokeWidth: cellSize / 50 }), circle && ((0, jsx_runtime_1.jsx)("circle", { cx: x + cellSize / 2, cy: y + cellSize / 2, r: cellSize / 2 - cellPadding * 4, stroke: cellBorder, strokeWidth: cellSize / 50, fill: "transparent" })), number && ((0, jsx_runtime_1.jsx)("text", Object.assign({ x: x + cellPadding * 4, y: y + cellPadding * 4, textAnchor: "start", dominantBaseline: "hanging", style: { fontSize: '50%', fill: numberColor } }, { children: number }))), (0, jsx_runtime_1.jsx)("text", Object.assign({ x: x + cellHalf, y: y + cellHalf + 1, textAnchor: "middle", dominantBaseline: "middle", style: { fill: textColor }, className: answer === guess ? 'guess-text-correct' : 'guess-text-incorrect' }, { children: guess }))] })));
 }
 exports.default = Cell;
 Cell.propTypes = cellPropTypes;

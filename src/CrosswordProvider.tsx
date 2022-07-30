@@ -27,7 +27,7 @@ import {
   GridData,
   UsedCellData,
   CellData,
-  UnusedCellData,
+  UnusedCellData, circlesInputShapeOriginal, CirclesInput,
 } from './types';
 import {
   bothDirections,
@@ -47,7 +47,7 @@ const defaultTheme = {
   cellBackground: 'rgb(255,255,255)',
   cellBorder: 'rgb(0,0,0)',
   textColor: 'rgb(0,0,0)',
-  numberColor: 'rgba(0,0,0, 0.25)',
+  numberColor: 'rgba(0,0,0, 1)',
   focusBackground: 'rgb(255,255,0)',
   highlightBackground: 'rgb(255,255,204)',
 };
@@ -59,6 +59,7 @@ export const crosswordProviderPropTypes = {
    * input format</a> for details.
    */
   data: cluesInputShapeOriginal.isRequired,
+  circles: circlesInputShapeOriginal.isRequired,
 
   /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
   theme: PropTypes.shape({
@@ -181,6 +182,7 @@ export type CrosswordProviderProps = EnhancedProps<
      * input format</a> for details.
      */
     data: CluesInput;
+    circles: CirclesInput;
 
     /**
      * callback function that fires when a player completes an answer, whether
@@ -321,6 +323,7 @@ const CrosswordProvider = React.forwardRef<
   (
     {
       data,
+      circles,
       theme,
       onAnswerComplete,
       onAnswerCorrect,
@@ -345,7 +348,7 @@ const CrosswordProvider = React.forwardRef<
       size,
       gridData: masterGridData,
       clues: masterClues,
-    } = useMemo(() => createGridData(data), [data]);
+    } = useMemo(() => createGridData(data, circles), [data, circles]);
 
     const [gridData, setGridData] = useState<GridData>([]);
     const [clues, setClues] = useState<CluesData | undefined>();
@@ -586,11 +589,52 @@ const CrosswordProvider = React.forwardRef<
     }, []);
 
     const moveTo = useCallback(
-      (row: number, col: number, directionOverride?: Direction) => {
+      (row: number, col: number, forwards: boolean, directionOverride?: Direction) => {
         let direction = directionOverride ?? currentDirection;
-        const candidate = getCellData(row, col);
+        let candidate = getCellData(row, col);
+
+        // move to the next used square
+        if (!candidate.used) {
+          if (!clues) {
+            return false;
+          }
+
+          const nextClueNumber = parseInt(currentNumber) + (forwards ? 1 : -1);
+          if (nextClueNumber <= 0) {
+            // Go to the last clue the opposite direction
+            const oppositeDirection = otherDirection(direction);
+            let maxClue = clues?.[oppositeDirection][0];
+            for (let i = 1; i < clues?.[oppositeDirection].length; i++) {
+              if (parseInt(maxClue.number) < parseInt(clues?.[oppositeDirection][i].number)) {
+                maxClue = clues?.[oppositeDirection][i];
+              }
+            }
+            candidate = getCellData(maxClue.row, maxClue.col);
+            direction = oppositeDirection;
+          } else {
+            const nextClue = clues?.[direction].find((clue) => clue.number === '' + nextClueNumber);
+            if (!nextClue) {
+              // find the first clue the opposite direction
+              const oppositeDirection = otherDirection(direction);
+              let minClue = clues?.[oppositeDirection][0];
+              for (let i = 1; i < clues?.[oppositeDirection].length; i++) {
+                if (parseInt(minClue.number) > parseInt(clues?.[oppositeDirection][i].number)) {
+                  minClue = clues?.[oppositeDirection][i];
+                }
+              }
+              candidate = getCellData(minClue.row, minClue.col);
+              direction = oppositeDirection;
+            } else {
+              candidate = getCellData(nextClue.row, nextClue.col);
+            }
+          }
+          row = candidate.row;
+          col = candidate.col;
+        }
 
         if (!candidate.used) {
+          // we should never get here.. but alas
+          console.log("Couldn't find a suitable candidate");
           return false;
         }
 
@@ -620,7 +664,7 @@ const CrosswordProvider = React.forwardRef<
           direction = 'across';
         }
 
-        const cell = moveTo(focusedRow + dRow, focusedCol + dCol, direction);
+        const cell = moveTo(focusedRow + dRow, focusedCol + dCol, dRow > 0 || dCol > 0, direction);
 
         return cell;
       },
@@ -722,7 +766,7 @@ const CrosswordProvider = React.forwardRef<
               }
             }
 
-            moveTo(row, col);
+            moveTo(row, col, true);
             break;
           }
 
@@ -892,7 +936,7 @@ const CrosswordProvider = React.forwardRef<
 
         // console.log('CrosswordProvider.handleClueSelected', { info });
         // TODO: sanity-check info?
-        moveTo(info.row, info.col, direction);
+        moveTo(info.row, info.col, true, direction);
         focus();
 
         if (onClueSelected) {
@@ -1083,6 +1127,7 @@ CrosswordProvider.displayName = 'CrosswordProvider';
 CrosswordProvider.propTypes = crosswordProviderPropTypes;
 CrosswordProvider.defaultProps = {
   theme: undefined,
+  circles: undefined,
   useStorage: true,
   storageKey: undefined,
   onAnswerComplete: undefined,

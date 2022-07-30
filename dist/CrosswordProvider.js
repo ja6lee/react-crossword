@@ -43,7 +43,7 @@ const defaultTheme = {
     cellBackground: 'rgb(255,255,255)',
     cellBorder: 'rgb(0,0,0)',
     textColor: 'rgb(0,0,0)',
-    numberColor: 'rgba(0,0,0, 0.25)',
+    numberColor: 'rgba(0,0,0, 1)',
     focusBackground: 'rgb(255,255,0)',
     highlightBackground: 'rgb(255,255,204)',
 };
@@ -54,6 +54,7 @@ exports.crosswordProviderPropTypes = {
      * input format</a> for details.
      */
     data: types_1.cluesInputShapeOriginal.isRequired,
+    circles: types_1.circlesInputShapeOriginal.isRequired,
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: prop_types_1.default.shape({
         /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */
@@ -160,12 +161,12 @@ exports.crosswordProviderPropTypes = {
  *
  * @since 4.0
  */
-const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerComplete, onAnswerCorrect, onCorrect, onAnswerIncorrect, onLoadedCorrect, onCrosswordComplete, onCrosswordCorrect, onCellChange, onClueSelected, useStorage, storageKey, children, }, ref) => {
+const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, onAnswerComplete, onAnswerCorrect, onCorrect, onAnswerIncorrect, onLoadedCorrect, onCrosswordComplete, onCrosswordCorrect, onCellChange, onClueSelected, useStorage, storageKey, children, }, ref) => {
     // The original Crossword implementation used separate state to track size
     // and grid data, and conflated the clues-input-data-based grid data and the
     // player input guesses.  Let's see if we can keep the clues-input and
     // player data segregated.
-    const { size, gridData: masterGridData, clues: masterClues, } = (0, react_1.useMemo)(() => (0, util_1.createGridData)(data), [data]);
+    const { size, gridData: masterGridData, clues: masterClues, } = (0, react_1.useMemo)(() => (0, util_1.createGridData)(data, circles), [data, circles]);
     const [gridData, setGridData] = (0, react_1.useState)([]);
     const [clues, setClues] = (0, react_1.useState)();
     // We can't seem to use state to track the registeredFocusHandler, because
@@ -330,11 +331,52 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
             console.warn('CrosswordProvider: focus() has no registered handler to call!');
         }
     }, []);
-    const moveTo = (0, react_1.useCallback)((row, col, directionOverride) => {
+    const moveTo = (0, react_1.useCallback)((row, col, forwards, directionOverride) => {
         var _a;
         let direction = directionOverride !== null && directionOverride !== void 0 ? directionOverride : currentDirection;
-        const candidate = getCellData(row, col);
+        let candidate = getCellData(row, col);
+        // move to the next used square
         if (!candidate.used) {
+            if (!clues) {
+                return false;
+            }
+            const nextClueNumber = parseInt(currentNumber) + (forwards ? 1 : -1);
+            if (nextClueNumber <= 0) {
+                // Go to the last clue the opposite direction
+                const oppositeDirection = (0, util_1.otherDirection)(direction);
+                let maxClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][0];
+                for (let i = 1; i < (clues === null || clues === void 0 ? void 0 : clues[oppositeDirection].length); i++) {
+                    if (parseInt(maxClue.number) < parseInt(clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i].number)) {
+                        maxClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i];
+                    }
+                }
+                candidate = getCellData(maxClue.row, maxClue.col);
+                direction = oppositeDirection;
+            }
+            else {
+                const nextClue = clues === null || clues === void 0 ? void 0 : clues[direction].find((clue) => clue.number === '' + nextClueNumber);
+                if (!nextClue) {
+                    // find the first clue the opposite direction
+                    const oppositeDirection = (0, util_1.otherDirection)(direction);
+                    let minClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][0];
+                    for (let i = 1; i < (clues === null || clues === void 0 ? void 0 : clues[oppositeDirection].length); i++) {
+                        if (parseInt(minClue.number) > parseInt(clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i].number)) {
+                            minClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i];
+                        }
+                    }
+                    candidate = getCellData(minClue.row, minClue.col);
+                    direction = oppositeDirection;
+                }
+                else {
+                    candidate = getCellData(nextClue.row, nextClue.col);
+                }
+            }
+            row = candidate.row;
+            col = candidate.col;
+        }
+        if (!candidate.used) {
+            // we should never get here.. but alas
+            console.log("Couldn't find a suitable candidate");
             return false;
         }
         if (!candidate[direction]) {
@@ -357,7 +399,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         else if (dRow === 0 && dCol !== 0) {
             direction = 'across';
         }
-        const cell = moveTo(focusedRow + dRow, focusedCol + dCol, direction);
+        const cell = moveTo(focusedRow + dRow, focusedCol + dCol, dRow > 0 || dCol > 0, direction);
         return cell;
     }, [focusedRow, focusedCol, moveTo]);
     const moveForward = (0, react_1.useCallback)(() => {
@@ -434,7 +476,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
                         row += length - 1;
                     }
                 }
-                moveTo(row, col);
+                moveTo(row, col, true);
                 break;
             }
             default:
@@ -562,7 +604,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, theme, onAnswerCom
         }
         // console.log('CrosswordProvider.handleClueSelected', { info });
         // TODO: sanity-check info?
-        moveTo(info.row, info.col, direction);
+        moveTo(info.row, info.col, true, direction);
         focus();
         if (onClueSelected) {
             onClueSelected(direction, number);
@@ -707,6 +749,7 @@ CrosswordProvider.displayName = 'CrosswordProvider';
 CrosswordProvider.propTypes = exports.crosswordProviderPropTypes;
 CrosswordProvider.defaultProps = {
     theme: undefined,
+    circles: undefined,
     useStorage: true,
     storageKey: undefined,
     onAnswerComplete: undefined,

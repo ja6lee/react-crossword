@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { AnswerTuple, CluesInput, Direction, EnhancedProps } from './types';
+import { AnswerTuple, CluesInput, Direction, EnhancedProps, CirclesInput } from './types';
 export declare const crosswordProviderPropTypes: {
     /**
      * clue/answer data; see <a
@@ -25,6 +25,10 @@ export declare const crosswordProviderPropTypes: {
             }>;
         }>;
     }>>;
+    circles: PropTypes.Validator<PropTypes.InferProps<{
+        row: PropTypes.Validator<number>;
+        col: PropTypes.Validator<number>;
+    }>[]>;
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */
@@ -130,6 +134,7 @@ export declare type CrosswordProviderProps = EnhancedProps<typeof crosswordProvi
      * input format</a> for details.
      */
     data: CluesInput;
+    circles: CirclesInput;
     /**
      * callback function that fires when a player completes an answer, whether
      * correct or not; called with `(direction, number, correct, answer)`
@@ -258,6 +263,10 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
             }>;
         }>;
     }>>;
+    circles: PropTypes.Validator<PropTypes.InferProps<{
+        row: PropTypes.Validator<number>;
+        col: PropTypes.Validator<number>;
+    }>[]>;
     /** presentation values for the crossword; these override any values coming from a parent ThemeProvider context. */
     theme: PropTypes.Requireable<PropTypes.InferProps<{
         /** browser-width at which the clues go from showing beneath the grid to showing beside the grid */
@@ -355,13 +364,14 @@ declare const CrosswordProvider: React.ForwardRefExoticComponent<Omit<PropTypes.
      */
     onClueSelected: PropTypes.Requireable<(...args: any[]) => any>;
     children: PropTypes.Requireable<PropTypes.ReactNodeLike>;
-}>, "data" | "onAnswerComplete" | "onAnswerCorrect" | "onCorrect" | "onAnswerIncorrect" | "onLoadedCorrect" | "onCrosswordComplete" | "onCrosswordCorrect" | "onCellChange" | "onClueSelected"> & {
+}>, "data" | "circles" | "onAnswerComplete" | "onAnswerCorrect" | "onCorrect" | "onAnswerIncorrect" | "onLoadedCorrect" | "onCrosswordComplete" | "onCrosswordCorrect" | "onCellChange" | "onClueSelected"> & {
     /**
      * clue/answer data; see <a
      * href="#/Configuration%20and%20customization/Clue%20input%20format">Clue
      * input format</a> for details.
      */
     data: CluesInput;
+    circles: import("./types").CircleTypeArray;
     /**
      * callback function that fires when a player completes an answer, whether
      * correct or not; called with `(direction, number, correct, answer)`

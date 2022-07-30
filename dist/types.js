@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.cluesInputShapeOriginal = exports.clueShapeOriginal = void 0;
+exports.circlesInputShapeOriginal = exports.cluesInputShapeOriginal = exports.rowColShape = exports.clueShapeOriginal = void 0;
 const prop_types_1 = __importDefault(require("prop-types"));
 // We draw a distinction between the clue "input" data (which must be provided
 // by the consumer), and the in-progress clue/game data that includes answer
@@ -24,11 +24,17 @@ const clueInputPropsOriginal = {
     /** The 0-based column on which the answer begins */
     col: prop_types_1.default.number.isRequired,
 };
+const rowColProps = {
+    row: prop_types_1.default.number.isRequired,
+    col: prop_types_1.default.number.isRequired,
+};
 exports.clueShapeOriginal = prop_types_1.default.shape(clueInputPropsOriginal);
+exports.rowColShape = prop_types_1.default.shape(rowColProps);
 exports.cluesInputShapeOriginal = prop_types_1.default.shape({
     /** "across" clues and answers */
     across: prop_types_1.default.objectOf(exports.clueShapeOriginal.isRequired).isRequired,
     /** "down" clues and answers */
-    down: prop_types_1.default.objectOf(exports.clueShapeOriginal.isRequired).isRequired,
+    down: prop_types_1.default.objectOf(exports.clueShapeOriginal.isRequired).isRequired
 });
+exports.circlesInputShapeOriginal = prop_types_1.default.arrayOf(exports.rowColShape.isRequired);
 //# sourceMappingURL=types.js.map

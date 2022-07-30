@@ -34,16 +34,26 @@ const clueInputPropsOriginal = {
   col: PropTypes.number.isRequired,
 };
 
+const rowColProps = {
+  row: PropTypes.number.isRequired,
+  col: PropTypes.number.isRequired,
+}
+
 export const clueShapeOriginal = PropTypes.shape(clueInputPropsOriginal);
+export const rowColShape = PropTypes.shape(rowColProps);
 
 export type ClueTypeOriginal = InferProps<typeof clueInputPropsOriginal>;
+export type CircleTypeOriginal = InferProps<typeof rowColProps>;
 
 export const cluesInputShapeOriginal = PropTypes.shape({
   /** "across" clues and answers */
   across: PropTypes.objectOf(clueShapeOriginal.isRequired).isRequired,
   /** "down" clues and answers */
-  down: PropTypes.objectOf(clueShapeOriginal.isRequired).isRequired,
+  down: PropTypes.objectOf(clueShapeOriginal.isRequired).isRequired
 });
+
+export const circlesInputShapeOriginal = PropTypes.arrayOf(rowColShape.isRequired)
+export type CircleTypeArray = Array<CircleTypeOriginal>;
 
 /**
  * The (original) input-format for clues and answers.  Note that while the
@@ -55,12 +65,15 @@ export type CluesInputOriginal = Record<
   Record<string, ClueTypeOriginal>
 >;
 
+
 /**
  * The input-format for clues and answers.  Only the original format is
  * currently available, but there may be some additional formats added in the
  * future.
  */
 export type CluesInput = CluesInputOriginal;
+
+export type CirclesInput = CircleTypeArray;
 
 // in-progress game data...
 
@@ -82,6 +95,8 @@ export type UsedCellData = GridPosition & {
   across?: string;
   /** If present, the clue-number key for the "down" for this cell */
   down?: string;
+  /** If present, a circle should be shown in this cell */
+  circle?: boolean;
 };
 
 /**

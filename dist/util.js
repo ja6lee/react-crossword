@@ -68,7 +68,7 @@ function createEmptyGrid(size) {
     return gridData;
 }
 exports.createEmptyGrid = createEmptyGrid;
-function fillClues(gridData, clues, data, direction) {
+function fillClues(gridData, clues, data, direction, circles) {
     const dir = directionInfo[direction];
     Object.entries(data[direction]).forEach(([number, info]) => {
         const { row: rowStart, col: colStart, clue, answer } = info;
@@ -80,6 +80,13 @@ function fillClues(gridData, clues, data, direction) {
             cellData.used = true;
             cellData.answer = answer[i];
             cellData[direction] = number;
+            if (circles) {
+                for (let c = 0; c < circles.length; c++) {
+                    if (circles[c].row == row && circles[c].col == col) {
+                        cellData.circle = true;
+                    }
+                }
+            }
             if (i === 0) {
                 // TODO?: check to ensure the number is the same if it's already set?
                 cellData.number = number;
@@ -98,7 +105,7 @@ function fillClues(gridData, clues, data, direction) {
 exports.fillClues = fillClues;
 // Given the "nice format" for a crossword, generate the usable data optimized
 // for rendering and our interactivity.
-function createGridData(data) {
+function createGridData(data, circles) {
     const acrossMax = calculateExtents(data, 'across');
     const downMax = calculateExtents(data, 'down');
     const size = Math.max(...Object.values(acrossMax), ...Object.values(downMax)) + 1;
@@ -108,8 +115,8 @@ function createGridData(data) {
         across: [],
         down: [],
     };
-    fillClues(gridData, clues, data, 'across');
-    fillClues(gridData, clues, data, 'down');
+    fillClues(gridData, clues, data, 'across', circles);
+    fillClues(gridData, clues, data, 'down', circles);
     return { size, gridData, clues };
 }
 exports.createGridData = createGridData;
