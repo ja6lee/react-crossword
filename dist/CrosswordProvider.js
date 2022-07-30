@@ -331,6 +331,39 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
             console.warn('CrosswordProvider: focus() has no registered handler to call!');
         }
     }, []);
+    const findEdgeClue = (0, react_1.useCallback)((direction, front) => {
+        if (!clues) {
+            return null;
+        }
+        const clueNumbers = clues === null || clues === void 0 ? void 0 : clues[direction].map((clue) => clue.number).sort((a, b) => parseInt(a) - parseInt(b));
+        console.log('clue numbers');
+        console.log(clueNumbers);
+        if (front) {
+            return clues === null || clues === void 0 ? void 0 : clues[direction].find((clue) => clue.number === clueNumbers[0]);
+        }
+        else {
+            return clues === null || clues === void 0 ? void 0 : clues[direction].find((clue) => clue.number === clueNumbers[clueNumbers.length - 1]);
+        }
+    }, [clues]);
+    const findClosestClueToCurrent = (0, react_1.useCallback)((forwards) => {
+        if (!clues) {
+            return null;
+        }
+        const clueNumbers = clues === null || clues === void 0 ? void 0 : clues[currentDirection].map((clue) => clue.number).sort((a, b) => parseInt(a) - parseInt(b));
+        console.log('clue numbers');
+        console.log(clueNumbers);
+        for (let i = 0; i < clueNumbers.length; i++) {
+            if (clueNumbers[i] === currentNumber) {
+                if (forwards && i != clueNumbers.length - 1) {
+                    return clues === null || clues === void 0 ? void 0 : clues[currentDirection].find((clue) => clue.number === clueNumbers[i + 1]);
+                }
+                else if (!forwards && i != 0) {
+                    return clues === null || clues === void 0 ? void 0 : clues[currentDirection].find((clue) => clue.number === clueNumbers[i - 1]);
+                }
+            }
+        }
+        return null;
+    }, [currentDirection, currentNumber, clues]);
     const moveTo = (0, react_1.useCallback)((row, col, forwards, directionOverride) => {
         var _a;
         let direction = directionOverride !== null && directionOverride !== void 0 ? directionOverride : currentDirection;
@@ -342,46 +375,26 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
             if (!clues) {
                 return false;
             }
-            const nextClueNumber = parseInt(currentNumber) + (forwards ? 1 : -1);
-            if (nextClueNumber <= 0) {
-                console.log("in case 1");
-                // Go to the last clue the opposite direction
-                const oppositeDirection = (0, util_1.otherDirection)(direction);
-                let maxClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][0];
-                for (let i = 1; i < (clues === null || clues === void 0 ? void 0 : clues[oppositeDirection].length); i++) {
-                    if (parseInt(maxClue.number) < parseInt(clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i].number)) {
-                        maxClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i];
-                    }
-                }
-                console.log(maxClue);
-                candidate = getCellData(maxClue.row, maxClue.col);
-                direction = oppositeDirection;
+            const nextClue = findClosestClueToCurrent(forwards);
+            if (nextClue) {
+                console.log("Found a next clue!");
+                candidate = getCellData(nextClue.row, nextClue.col);
             }
             else {
-                console.log(`Next clue number: ${nextClueNumber}`);
-                console.log(clues);
-                const nextClue = clues === null || clues === void 0 ? void 0 : clues[direction].find((clue) => clue.number === ('' + nextClueNumber));
-                if (!nextClue) {
-                    console.log("in case 2");
-                    // find the first clue the opposite direction
-                    const oppositeDirection = (0, util_1.otherDirection)(direction);
-                    let minClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][0];
-                    for (let i = 1; i < (clues === null || clues === void 0 ? void 0 : clues[oppositeDirection].length); i++) {
-                        if (parseInt(minClue.number) > parseInt(clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i].number)) {
-                            minClue = clues === null || clues === void 0 ? void 0 : clues[oppositeDirection][i];
-                        }
-                    }
-                    console.log(minClue);
-                    candidate = getCellData(minClue.row, minClue.col);
+                console.log("... did not find a next clue - we need to switch directions :(");
+                const oppositeDirection = (0, util_1.otherDirection)(direction);
+                const edgeClue = findEdgeClue(oppositeDirection, !forwards);
+                if (edgeClue) {
+                    candidate = getCellData(edgeClue.row, edgeClue.col);
                     direction = oppositeDirection;
                 }
                 else {
-                    console.log("in case 3");
-                    candidate = getCellData(nextClue.row, nextClue.col);
+                    console.log("Did not find an edge clue somehow...?");
+                    return false;
                 }
+                row = candidate.row;
+                col = candidate.col;
             }
-            row = candidate.row;
-            col = candidate.col;
         }
         console.log("Candidate: ");
         console.log(candidate);
