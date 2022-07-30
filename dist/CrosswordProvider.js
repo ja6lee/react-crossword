@@ -384,7 +384,7 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
             else {
                 console.log("... did not find a next clue - we need to switch directions :(");
                 const oppositeDirection = (0, util_1.otherDirection)(direction);
-                const edgeClue = findEdgeClue(oppositeDirection, !forwards);
+                const edgeClue = findEdgeClue(oppositeDirection, forwards);
                 if (edgeClue) {
                     candidate = getCellData(edgeClue.row, edgeClue.col);
                     direction = oppositeDirection;
