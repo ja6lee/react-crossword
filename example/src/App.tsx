@@ -25,8 +25,10 @@ const data = {
       row: 0,
       col: 2,
     },
-  },
+  }
 };
+
+const circles = [{ row: 0, col: 0 }, { row: 2, col: 2}];
 
 const Page = styled.div`
   padding: 2em;
@@ -295,6 +297,7 @@ function App() {
           <Crossword
             ref={crossword}
             data={data}
+            circles={circles}
             onCorrect={onCorrect}
             onLoadedCorrect={onLoadedCorrect}
             onCrosswordCorrect={onCrosswordCorrect}
@@ -325,6 +328,7 @@ function App() {
           <CrosswordProvider
             ref={crosswordProvider}
             data={data}
+            circles={circles}
             onCorrect={onCorrectProvider}
             onLoadedCorrect={onLoadedCorrectProvider}
             onCrosswordCorrect={onCrosswordCorrectProvider}

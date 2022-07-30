@@ -1,7 +1,7 @@
 {
   "name": "@jaredreisinger/react-crossword",
   "homepage": "https://react-crossword.jaredreisinger.com",
-  "version": "4.3.2",
+  "version": "4.3.3",
   "description": "A flexible, responsive, and easy-to-use crossword component for React apps",
   "author": {
     "name": "JaredReisinger",
@@ -26,6 +26,7 @@
   "sideEffects": false,
   "scripts": {
     "test": "jest",
+    "example": "npm run build && cd example && tsc && npm start",
     "test:coverage": "jest --coverage --collectCoverageFrom='src/**/*.{js,jsx,ts,tsx}'",
     "test:dev": "jest --watch",
     "lint": "eslint src/**/*.{js,jsx,ts,tsx}",
@@ -40,7 +41,7 @@
     "doc:deploy": "npm run doc:build && gh-pages --dist styleguide --branch documentation",
     "#snyk-protect": "snyk protect",
     "#prepare": "npm run snyk-protect",
-    "prepare": "is-ci || husky install"
+    "prepare": "is-ci || true"
   },
   "files": [
     "/dist",
