@@ -617,7 +617,9 @@ const CrosswordProvider = React.forwardRef<
             candidate = getCellData(maxClue.row, maxClue.col);
             direction = oppositeDirection;
           } else {
-            const nextClue = clues?.[direction].find((clue) => clue.number === '' + nextClueNumber);
+            console.log(`Next clue number: ${nextClueNumber}`)
+            console.log(clues);
+            const nextClue = clues?.[direction].find((clue) => clue.number === ('' + nextClueNumber));
             if (!nextClue) {
               console.log("in case 2")
               // find the first clue the opposite direction

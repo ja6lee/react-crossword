@@ -358,7 +358,9 @@ const CrosswordProvider = react_1.default.forwardRef(({ data, circles, theme, on
                 direction = oppositeDirection;
             }
             else {
-                const nextClue = clues === null || clues === void 0 ? void 0 : clues[direction].find((clue) => clue.number === '' + nextClueNumber);
+                console.log(`Next clue number: ${nextClueNumber}`);
+                console.log(clues);
+                const nextClue = clues === null || clues === void 0 ? void 0 : clues[direction].find((clue) => clue.number === ('' + nextClueNumber));
                 if (!nextClue) {
                     console.log("in case 2");
                     // find the first clue the opposite direction
