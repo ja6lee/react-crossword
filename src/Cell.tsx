@@ -105,6 +105,7 @@ export default function Cell({
         r={cellSize / 2 - cellPadding * 4}
         stroke={cellBorder}
         strokeWidth={cellSize / 50}
+        style={{ fill: 'transparent' }}
         fill="transparent" />
       )}
       {number && (
